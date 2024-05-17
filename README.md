@@ -1,4 +1,4 @@
-CREATE VOLATILE TABLE transformed_data AS (
+n CREATE VOLATILE TABLE transformed_data AS (
     SELECT 
         a.wh_acc_no,
         a.acc_no,
@@ -808,7 +808,93 @@ DROP TABLE temp_sorted_deduped_data;
 
 This code follows the required process steps, ensures that input data is trimmed for tables starting with "Formatted", and uses separate `CREATE` and `INSERT` statements for temporary tables. If you have any further requirements or adjustments, please let me know.
 
+updated step 3
 
+INSERT INTO temp_transformed_data
+SELECT 
+    TRIM(a.wh_acc_no) AS wh_acc_no,
+    TRIM(a.acc_no) AS acc_no,
+    TRIM(b.scv_id) AS scv_id,
+    CASE 
+        WHEN TRIM(a.designation_1_txt) IS NULL AND TRIM(a.designation_2_txt) IS NULL AND TRIM(a.short_name) IS NOT NULL THEN TRIM(a.short_name)
+        WHEN TRIM(a.designation_1_txt) IS NOT NULL OR TRIM(a.designation_2_txt) IS NOT NULL THEN TRIM(a.designation_1_txt) || ' ' || TRIM(a.designation_2_txt)
+        WHEN a.srce_sys_descr = 'CALYPSO-CM' AND TRIM(a.short_name) IS NOT NULL THEN TRIM(a.short_name)
+        ELSE TRIM(a.acc_no)
+    END AS dep_title_txt,
+    TRIM(a.bic_cde) AS bic_cde,
+    TRIM(a.iban_no) AS iban_no,
+    TRIM(a.br_language_descr) AS br_language_descr,
+    CASE 
+        WHEN TRIM(a.prod_grp_descr) IS NOT NULL THEN TRIM(a.prod_grp_descr)
+        ELSE TRIM(a.prod_descr)
+    END AS prod_typ,
+    a.dgs_cust_owner_cnt AS dep_hldr_tot_cnt,
+    b.dgs_acc_owner_ind AS dep_hldr_ind,
+    CASE 
+        WHEN SUBSTRING(TRIM(b.acc_owner_bal_split_rte) FROM 1 FOR 1) = '.' OR SUBSTRING(TRIM(b.acc_owner_bal_split_rte) FROM 1 FOR 2) = '-.' THEN '0' || TRIM(b.acc_owner_bal_split_rte)
+        ELSE TRIM(b.acc_owner_bal_split_rte)
+    END AS dep_hldr_bal_split_rte,
+    CASE 
+        WHEN SUBSTRING(TRIM(b.split_euro_bal_amt) FROM 1 FOR 1) = '.' OR SUBSTRING(TRIM(b.split_euro_bal_amt) FROM 1 FOR 2) = '-.' THEN '0' || TRIM(b.split_euro_bal_amt)
+        ELSE TRIM(b.split_euro_bal_amt)
+    END AS dep_hldr_bal_euro_amt,
+    CASE 
+        WHEN c.stp_ind = 1 THEN 'STP'
+        WHEN c.ben_ind = 1 THEN 'BEN'
+        WHEN c.dec_ind = 1 THEN 'DEC'
+        WHEN c.ga_ind = 1 THEN 'GA'
+        WHEN c.brp_ind = 1 THEN 'BRP'
+        WHEN c.frd_ind = 1 THEN 'FRD'
+        WHEN c.mlo_ind = 1 THEN 'MLO'
+        WHEN c.san_ind = 1 THEN 'SAN'
+        WHEN c.ldis_ind = 1 THEN 'LDIS'
+        WHEN c.blk_ind = 1 THEN 'BLK'
+        ELSE NULL
+    END AS dep_sta_1_cde,
+    CASE 
+        WHEN dep_sta_1_cde = 'STP' THEN NULL
+        ELSE COALESCE(
+            CASE WHEN c.ben_ind = 1 AND dep_sta_1_cde != 'BEN' THEN 'BEN' ELSE NULL END,
+            CASE WHEN c.dec_ind = 1 AND dep_sta_1_cde != 'DEC' THEN 'DEC' ELSE NULL END,
+            CASE WHEN c.ga_ind = 1 AND dep_sta_1_cde != 'GA' THEN 'GA' ELSE NULL END,
+            CASE WHEN c.brp_ind = 1 AND dep_sta_1_cde != 'BRP' THEN 'BRP' ELSE NULL END,
+            CASE WHEN c.frd_ind = 1 AND dep_sta_1_cde != 'FRD' THEN 'FRD' ELSE NULL END,
+            CASE WHEN c.mlo_ind = 1 AND dep_sta_1_cde != 'MLO' THEN 'MLO' ELSE NULL END,
+            CASE WHEN c.san_ind = 1 AND dep_sta_1_cde != 'SAN' THEN 'SAN' ELSE NULL END,
+            CASE WHEN c.ldis_ind = 1 AND dep_sta_1_cde != 'LDIS' THEN 'LDIS' ELSE NULL END,
+            CASE WHEN c.blk_ind = 1 AND dep_sta_1_cde != 'BLK' THEN 'BLK' ELSE NULL END
+        )
+    END AS dep_sta_2_cde,
+    CASE 
+        WHEN dep_sta_1_cde = 'STP' THEN NULL
+        WHEN c.ga_ind = 1 AND dep_sta_1_cde != 'GA' AND dep_sta_2_cde != 'GA' THEN 'GA'
+        WHEN c.brp_ind = 1 AND dep_sta_1_cde != 'BRP' AND dep_sta_2_cde != 'BRP' THEN 'BRP'
+        WHEN c.frd_ind = 1 AND dep_sta_1_cde != 'FRD' AND dep_sta_2_cde != 'FRD' THEN 'FRD'
+        WHEN c.mlo_ind = 1 AND dep_sta_1_cde != 'MLO' AND dep_sta_2_cde != 'MLO' THEN 'MLO'
+        WHEN c.san_ind = 1 AND dep_sta_1_cde != 'SAN' AND dep_sta_2_cde != 'SAN' THEN 'SAN'
+        WHEN c.ldis_ind = 1 AND dep_sta_1_cde != 'LDIS' AND dep_sta_2_cde != 'LDIS' THEN 'LDIS'
+        WHEN c.blk_ind = 1 AND dep_sta_1_cde != 'BLK' AND dep_sta_2_cde != 'BLK' THEN 'BLK'
+        ELSE NULL
+    END AS dep_sta_3_cde,
+    a.euro_bal_amt AS acc_bal_euro_amt,
+    a.euro_accrd_int_amt AS accrd_int_euro_amt,
+    a.orig_crncy_bal_amt AS acc_bal_orig_crncy_amt,
+    a.orig_crncy_accrd_int_amt AS accrd_int_orig_crncy_amt,
+    TRIM(a.iso_crncy_cde) AS orig_crncy_cde,
+    CASE 
+        WHEN SUBSTRING(TRIM(a.sap_fx_daily_rte) FROM 1 FOR 1) = '.' OR SUBSTRING(TRIM(a.sap_fx_daily_rte) FROM 1 FOR 2) = '-.' THEN '0' || TRIM(a.sap_fx_daily_rte)
+        ELSE TRIM(a.sap_fx_daily_rte)
+    END AS exch_rte,
+    TRIM(b.split_euro_bal_amt) AS balance,
+    36 AS srce_sys,
+    1 AS srce_inst,
+    CURRENT_DATE AS load_date,
+    CAST(CURRENT_TIME AS FORMAT 'HH:MI:SS') AS load_time
+FROM temp_formatted_dgs_account_detail a
+JOIN temp_formatted_dgs_customer_account_rel b ON a.wh_acc_no = b.wh_acc_no
+JOIN temp_formatted_dgs_deposit_status_detail c ON b.scv_id = c.scv_id
+JOIN temp_dgs_scv_master_customer d ON c.scv_id = d.scv_id
+WHERE (a.beneficiary_acc_ind = 'Y' OR b.dgs_excl_ind = 'N') AND b.split_euro_bal_amt >= 0.01;
 
 
 
