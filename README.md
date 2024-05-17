@@ -429,3 +429,386 @@ JOIN
 WHERE
     A.WH_ACC_NO IS NOT NULL;
 
+final ___
+
+
+### Step 1: Create Temporary Tables
+
+```sql
+-- Create temporary table for Formatted DGS Account Detail
+CREATE MULTISET VOLATILE TABLE temp_formatted_dgs_account_detail (
+    wh_acc_no CHAR(16),
+    acc_no CHAR(16),
+    bic_cde VARCHAR(35),
+    iban_no VARCHAR(30),
+    br_language_descr CHAR(7),
+    prod_descr VARCHAR(50),
+    prod_grp_descr VARCHAR(50),
+    dgs_cust_owner_cnt INTEGER,
+    euro_bal_amt DECIMAL(15,2),
+    orig_crncy_bal_amt DECIMAL(15,2),
+    euro_accrd_int_amt DECIMAL(15,2),
+    orig_crncy_accrd_int_amt DECIMAL(15,2),
+    iso_crncy_cde CHAR(3),
+    sap_fx_daily_rte DECIMAL(10,5),
+    short_name VARCHAR(50),
+    designation_1_txt VARCHAR(50),
+    designation_2_txt VARCHAR(50),
+    beneficiary_acc_ind CHAR(1),
+    srce_sys_descr VARCHAR(12),
+    iso_cntry_cde CHAR(4)
+) PRIMARY INDEX (wh_acc_no) ON COMMIT PRESERVE ROWS;
+
+-- Create temporary table for Formatted DGS Customer Account Rel
+CREATE MULTISET VOLATILE TABLE temp_formatted_dgs_customer_account_rel (
+    wh_acc_no CHAR(16),
+    acc_no CHAR(20),
+    scv_id VARCHAR(20),
+    wh_cust_no INTEGER,
+    srce_cust_no VARCHAR(19),
+    dgs_acc_owner_ind DECIMAL(8,3),
+    acc_owner_bal_split_rte DECIMAL(15,2),
+    dgs_excl_ind CHAR(1),
+    split_euro_bal_amt DECIMAL(15,2)
+) PRIMARY INDEX (wh_acc_no) ON COMMIT PRESERVE ROWS;
+
+-- Create temporary table for Formatted DGS Deposit Status Detail
+CREATE MULTISET VOLATILE TABLE temp_formatted_dgs_deposit_status_detail (
+    scv_id VARCHAR(20),
+    stp_ind INTEGER,
+    ben_ind INTEGER,
+    dec_ind INTEGER,
+    ga_ind INTEGER,
+    brp_ind INTEGER,
+    frd_ind INTEGER,
+    mlo_ind INTEGER,
+    san_ind INTEGER,
+    ldis_ind INTEGER,
+    blk_ind INTEGER
+) PRIMARY INDEX (scv_id) ON COMMIT PRESERVE ROWS;
+
+-- Create temporary table for DGS SCV Master Customer
+CREATE MULTISET VOLATILE TABLE temp_dgs_scv_master_customer (
+    scv_id VARCHAR(20),
+    customer_data VARCHAR(100) -- Example column, add all necessary columns
+) PRIMARY INDEX (scv_id) ON COMMIT PRESERVE ROWS;
+
+-- Create temporary table for storing intermediate transformed data
+CREATE MULTISET VOLATILE TABLE temp_transformed_data (
+    wh_acc_no CHAR(16),
+    acc_no CHAR(16),
+    scv_id VARCHAR(20),
+    dep_title_txt VARCHAR(50),
+    bic_cde VARCHAR(35),
+    iban_no VARCHAR(30),
+    br_language_descr CHAR(7),
+    prod_typ VARCHAR(50),
+    dep_hldr_tot_cnt INTEGER,
+    dep_hldr_ind INTEGER,
+    dep_hldr_bal_split_rte DECIMAL(6,3),
+    dep_hldr_bal_euro_amt DECIMAL(15,2),
+    dep_sta_1_cde VARCHAR(4),
+    dep_sta_2_cde VARCHAR(4),
+    dep_sta_3_cde VARCHAR(4),
+    acc_bal_euro_amt DECIMAL(15,2),
+    accrd_int_euro_amt DECIMAL(15,2),
+    acc_bal_orig_crncy_amt DECIMAL(15,2),
+    accrd_int_orig_crncy_amt DECIMAL(15,2),
+    orig_crncy_cde VARCHAR(3),
+    exch_rte DECIMAL(10,5),
+    balance DECIMAL(15,2),
+    srce_sys SMALLINT,
+    srce_inst SMALLINT,
+    load_date CHAR(10),
+    load_time CHAR(10)
+) PRIMARY INDEX (scv_id) ON COMMIT PRESERVE ROWS;
+
+-- Create temporary table for sorted and deduplicated data
+CREATE MULTISET VOLATILE TABLE temp_sorted_deduped_data (
+    wh_acc_no CHAR(16),
+    acc_no CHAR(16),
+    scv_id VARCHAR(20),
+    dep_title_txt VARCHAR(50),
+    bic_cde VARCHAR(35),
+    iban_no VARCHAR(30),
+    br_language_descr CHAR(7),
+    prod_typ VARCHAR(50),
+    dep_hldr_tot_cnt INTEGER,
+    dep_hldr_ind INTEGER,
+    dep_hldr_bal_split_rte DECIMAL(6,3),
+    dep_hldr_bal_euro_amt DECIMAL(15,2),
+    dep_sta_1_cde VARCHAR(4),
+    dep_sta_2_cde VARCHAR(4),
+    dep_sta_3_cde VARCHAR(4),
+    acc_bal_euro_amt DECIMAL(15,2),
+    accrd_int_euro_amt DECIMAL(15,2),
+    acc_bal_orig_crncy_amt DECIMAL(15,2),
+    accrd_int_orig_crncy_amt DECIMAL(15,2),
+    orig_crncy_cde VARCHAR(3),
+    exch_rte DECIMAL(10,5),
+    balance DECIMAL(15,2),
+    srce_sys SMALLINT,
+    srce_inst SMALLINT,
+    load_date CHAR(10),
+    load_time CHAR(10)
+) PRIMARY INDEX (scv_id) ON COMMIT PRESERVE ROWS;
+```
+
+### Step 2: Load Data into Temporary Tables
+
+```sql
+-- Load data into temp_formatted_dgs_account_detail with trimming
+INSERT INTO temp_formatted_dgs_account_detail
+SELECT 
+    TRIM(wh_acc_no),
+    TRIM(acc_no),
+    TRIM(bic_cde),
+    TRIM(iban_no),
+    TRIM(br_language_descr),
+    TRIM(prod_descr),
+    TRIM(prod_grp_descr),
+    dgs_cust_owner_cnt,
+    euro_bal_amt,
+    orig_crncy_bal_amt,
+    euro_accrd_int_amt,
+    orig_crncy_accrd_int_amt,
+    TRIM(iso_crncy_cde),
+    sap_fx_daily_rte,
+    TRIM(short_name),
+    TRIM(designation_1_txt),
+    TRIM(designation_2_txt),
+    TRIM(beneficiary_acc_ind),
+    TRIM(srce_sys_descr),
+    TRIM(iso_cntry_cde)
+FROM dgs_account_detail;
+
+-- Load data into temp_formatted_dgs_customer_account_rel with trimming
+INSERT INTO temp_formatted_dgs_customer_account_rel
+SELECT 
+    TRIM(wh_acc_no),
+    TRIM(acc_no),
+    TRIM(scv_id),
+    wh_cust_no,
+    TRIM(srce_cust_no),
+    dgs_acc_owner_ind,
+    acc_owner_bal_split_rte,
+    TRIM(dgs_excl_ind),
+    split_euro_bal_amt
+FROM dgs_customer_account_rel;
+
+-- Load data into temp_formatted_dgs_deposit_status_detail with trimming
+INSERT INTO temp_formatted_dgs_deposit_status_detail
+SELECT 
+    TRIM(scv_id),
+    stp_ind,
+    ben_ind,
+    dec_ind,
+    ga_ind,
+    brp_ind,
+    frd_ind,
+    mlo_ind,
+    san_ind,
+    ldis_ind,
+    blk_ind
+FROM dgs_deposit_status_detail;
+
+-- Load data into temp_dgs_scv_master_customer with trimming
+INSERT INTO temp_dgs_scv_master_customer
+SELECT 
+    TRIM(scv_id),
+    TRIM(customer_data) -- Add all necessary columns
+FROM dgs_scv_master_customer;
+```
+
+### Step 3: Transform Data and Store in Intermediate Temporary Table
+
+```sql
+-- Insert transformed data into intermediate temporary table
+INSERT INTO temp_transformed_data
+SELECT 
+    a.wh_acc_no,
+    a.acc_no,
+    b.scv_id,
+    CASE 
+        WHEN a.designation_1_txt IS NULL AND a.designation_2_txt IS NULL AND a.short_name IS NOT NULL THEN a.short_name
+        WHEN a.designation_1_txt IS NOT NULL OR a.designation_2_txt IS NOT NULL THEN TRIM(BOTH ' ' FROM (a.designation_1_txt || ' ' || a.designation_2_txt))
+        WHEN a.srce_sys_descr = 'CALYPSO-CM' AND a.short_name IS NOT NULL THEN a.short_name
+        ELSE a.acc_no
+    END AS dep_title_txt,
+    a.bic_cde,
+    a.iban_no,
+    a.br_language_descr,
+    CASE 
+        WHEN a.prod_grp_descr IS NOT NULL THEN a.prod_grp_descr
+        ELSE a.prod_descr
+    END AS prod_typ,
+    a.dgs_cust_owner_cnt AS dep_hldr_tot_cnt,
+    b.dgs_acc_owner_ind AS dep_hldr_ind,
+    CASE 
+        WHEN SUBSTRING(b.acc_owner_bal_split_rte FROM 1 FOR 1) = '.' OR SUBSTRING(b.acc_owner_bal_split_rte FROM 1 FOR 2) = '-.' THEN '0' || b.acc_owner_bal_split_rte
+        ELSE b.acc_owner_bal_split_rte
+    END AS dep_hldr_bal_split_rte,
+    CASE 
+        WHEN SUBSTRING(b.split_euro_bal_amt FROM 1 FOR 1) = '.' OR SUBSTRING(b.split_euro_bal_amt FROM 1 FOR 2) = '-.' THEN '0' || b.split_euro_bal_amt
+        ELSE b.split_euro_bal_amt
+    END AS dep_hldr_bal_euro_amt,
+    CASE 
+        WHEN c.stp_ind = 1 THEN 'STP'
+        WHEN c.ben_ind = 1 THEN 'BEN'
+        WHEN c.dec_ind = 1 THEN 'DEC'
+        WHEN c.ga_ind = 1 THEN 'GA'
+        WHEN c.brp_ind = 1 THEN 'BRP'
+        WHEN c.frd_ind = 1 THEN 'FRD'
+        WHEN c.mlo_ind = 1 THEN 'MLO'
+        WHEN c.san_ind = 1 THEN 'SAN'
+        WHEN c.ldis_ind = 1 THEN 'LDIS'
+        WHEN c.blk_ind = 1 THEN 'BLK'
+        ELSE NULL
+    END AS dep_sta_1_cde,
+    CASE 
+        WHEN dep_sta_1_cde = 'STP' THEN NULL
+        WHEN c.ben_ind = 1 AND dep_sta_1_cde != 'BEN' THEN 'BEN'
+        WHEN c.dec_ind = 1 AND dep_sta_1_cde != 'DEC' THEN 'DEC'
+        WHEN c.ga_ind = 1 AND dep_sta_1_cde != 'GA' THEN 'GA'
+        WHEN c.brp_ind = 1 AND dep_sta_1_cde != 'BRP' THEN 'BRP'
+        WHEN c.frd_ind = 1 AND dep_sta_1_cde != 'FRD' THEN 'FRD'
+        WHEN c.mlo_ind = 1 AND dep_sta_1_cde != 'MLO' THEN 'MLO'
+        WHEN c.san_ind = 1 AND dep_sta_1_cde != 'SAN' THEN 'SAN'
+        WHEN c.ldis_ind = 1 AND dep_sta_1_cde != 'LDIS' THEN 'LDIS'
+        WHEN c.blk_ind = 1 AND dep_sta_1_cde != 'BLK' THEN 'BLK'
+        ELSE NULL
+    END AS dep_sta_2_cde,
+    CASE 
+        WHEN dep_sta_1_cde = 'STP' THEN NULL
+        WHEN c.ga_ind = 1 AND dep_sta_1_cde != 'GA' AND dep_sta_2_cde != 'GA' THEN 'GA'
+        WHEN c.brp_ind = 1 AND dep_sta_1_cde != 'BRP' AND dep_sta_2_cde != 'BRP' THEN 'BRP'
+        WHEN c.frd_ind = 1 AND dep_sta_1_cde != 'FRD' AND dep_sta_2_cde != 'FRD' THEN 'FRD'
+        WHEN c.mlo_ind = 1 AND dep_sta_1_cde != 'MLO' AND dep_sta_2_cde != 'MLO' THEN 'MLO'
+        WHEN c.san_ind = 1 AND dep_sta_1_cde != 'SAN' AND dep_sta_2_cde != 'SAN' THEN 'SAN'
+        WHEN c.ldis_ind = 1 AND dep_sta_1_cde != 'LDIS' AND dep_sta_2_cde != 'LDIS' THEN 'LDIS'
+        WHEN c.blk_ind = 1 AND dep_sta_1_cde != 'BLK' AND dep_sta_2_cde != 'BLK' THEN 'BLK'
+        ELSE NULL
+    END AS dep_sta_3_cde,
+    a.euro_bal_amt AS acc_bal_euro_amt,
+    a.euro_accrd_int_amt AS accrd_int_euro_amt,
+    a.orig_crncy_bal_amt AS acc_bal_orig_crncy_amt,
+    a.orig_crncy_accrd_int_amt AS accrd_int_orig_crncy_amt,
+    a.iso_crncy_cde AS orig_crncy_cde,
+    CASE 
+        WHEN SUBSTRING(a.sap_fx_daily_rte FROM 1 FOR 1) = '.' OR SUBSTRING(a.sap_fx_daily_rte FROM 1 FOR 2) = '-.' THEN '0' || a.sap_fx_daily_rte
+        ELSE a.sap_fx_daily_rte
+    END AS exch_rte,
+    b.split_euro_bal_amt AS balance,
+    36 AS srce_sys,
+    1 AS srce_inst,
+    CAST(CURRENT_DATE AS CHAR(10)) AS load_date,
+    CAST(CURRENT_TIME AS CHAR(10)) AS load_time
+FROM temp_formatted_dgs_account_detail a
+JOIN temp_formatted_dgs_customer_account_rel b 
+ON a.wh_acc_no = b.wh_acc_no
+JOIN temp_formatted_dgs_deposit_status_detail c
+ON b.scv_id = c.scv_id
+JOIN temp_dgs_scv_master_customer d
+ON c.scv_id = d.scv_id
+WHERE ((a.beneficiary_acc_ind = 'Y') OR (b.dgs_excl_ind = 'N')) AND b.split_euro_bal_amt >= 0.01;
+```
+
+### Step 4: Sort and Deduplicate Data
+
+```sql
+-- Insert sorted and deduplicated data into temporary table
+INSERT INTO temp_sorted_deduped_data
+SELECT 
+    wh_acc_no,
+    acc_no,
+    scv_id,
+    dep_title_txt,
+    bic_cde,
+    iban_no,
+    br_language_descr,
+    prod_typ,
+    dep_hldr_tot_cnt,
+    dep_hldr_ind,
+    dep_hldr_bal_split_rte,
+    dep_hldr_bal_euro_amt,
+    dep_sta_1_cde,
+    dep_sta_2_cde,
+    dep_sta_3_cde,
+    acc_bal_euro_amt,
+    accrd_int_euro_amt,
+    acc_bal_orig_crncy_amt,
+    accrd_int_orig_crncy_amt,
+    orig_crncy_cde,
+    exch_rte,
+    balance,
+    srce_sys,
+    srce_inst,
+    load_date,
+    load_time
+FROM (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY scv_id, wh_acc_no, acc_no, dep_title_txt, bic_cde, 
+                           iban_no, br_language_descr, prod_typ, dep_hldr_tot_cnt, 
+                           dep_hldr_ind, dep_hldr_bal_split_rte, dep_hldr_bal_euro_amt, 
+                           dep_sta_1_cde, dep_sta_2_cde, dep_sta_3_cde, acc_bal_euro_amt, 
+                           accrd_int_euro_amt, acc_bal_orig_crncy_amt, accrd_int_orig_crncy_amt, 
+                           orig_crncy_cde, exch_rte, balance) AS row_num
+    FROM temp_transformed_data
+) AS sub
+WHERE row_num = 1;
+```
+
+### Step 5: Insert Sorted and Deduplicated Data into Final Table
+
+```sql
+-- Insert sorted and deduplicated data into the final table
+INSERT INTO dgs_scv_deposits
+SELECT 
+    wh_acc_no,
+    acc_no,
+    scv_id,
+    dep_title_txt,
+    bic_cde,
+    iban_no,
+    br_language_descr,
+    prod_typ,
+    dep_hldr_tot_cnt,
+    dep_hldr_ind,
+    dep_hldr_bal_split_rte,
+    dep_hldr_bal_euro_amt,
+    dep_sta_1_cde,
+    dep_sta_2_cde,
+    dep_sta_3_cde,
+    acc_bal_euro_amt,
+    accrd_int_euro_amt,
+    acc_bal_orig_crncy_amt,
+    accrd_int_orig_crncy_amt,
+    orig_crncy_cde,
+    exch_rte,
+    balance,
+    srce_sys,
+    srce_inst,
+    load_date,
+    load_time
+FROM temp_sorted_deduped_data;
+```
+
+### Step 6: Drop Temporary Tables
+
+```sql
+-- Drop temporary tables
+DROP TABLE temp_formatted_dgs_account_detail;
+DROP TABLE temp_formatted_dgs_customer_account_rel;
+DROP TABLE temp_formatted_dgs_deposit_status_detail;
+DROP TABLE temp_dgs_scv_master_customer;
+DROP TABLE temp_transformed_data;
+DROP TABLE temp_sorted_deduped_data;
+```
+
+This code follows the required process steps, ensures that input data is trimmed for tables starting with "Formatted", and uses separate `CREATE` and `INSERT` statements for temporary tables. If you have any further requirements or adjustments, please let me know.
+
+
+
+
+
