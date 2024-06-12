@@ -1109,4 +1109,47 @@ WHERE row_num = 1;
 
 This code separates the table creation and the data insertion steps and ensures that all necessary fields are correctly handled and that `ROW_NUMBER()` is used to deduplicate the records before inserting into the final table.
 
+cor
+SELECT 
+    A.SCV_ID,
+    A.CUST_TITLE AS NAME_PREFIX_TXT,
+    -- Your other columns here...
+    CASE 
+        WHEN A.FIRST_NAME IS NULL OR TRIM(A.FIRST_NAME) = '' THEN ''
+        ELSE
+            CASE 
+                WHEN POSITION(' ' IN A.FIRST_NAME) > 0 
+                THEN
+                    CASE
+                        WHEN POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) > 0 
+                        THEN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1 FOR POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) - 1)
+                        ELSE SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)
+                    END
+                ELSE ''
+            END
+    END AS FORENAME3_TXT,
+    -- Similar logic for forename1_txt and forename2_txt
+    CASE 
+        WHEN A.FIRST_NAME IS NULL OR TRIM(A.FIRST_NAME) = '' THEN ''
+        ELSE
+            CASE
+                WHEN POSITION('-' IN A.FIRST_NAME) > 0 THEN SUBSTRING(A.FIRST_NAME FROM 1 FOR POSITION('-' IN A.FIRST_NAME) - 1)
+                ELSE SUBSTRING(A.FIRST_NAME FROM 1 FOR POSITION(' ' IN A.FIRST_NAME) - 1)
+            END
+    END AS FORENAME1_TXT,
+    CASE 
+        WHEN A.FIRST_NAME IS NULL OR TRIM(A.FIRST_NAME) = '' THEN ''
+        ELSE
+            CASE
+                WHEN POSITION('-' IN A.FIRST_NAME) > 0 THEN SUBSTRING(SUBSTRING(A.FIRST_NAME FROM POSITION('-' IN A.FIRST_NAME) + 1) FROM 1 FOR POSITION('-' IN SUBSTRING(A.FIRST_NAME FROM POSITION('-' IN A.FIRST_NAME) + 1)) - 1)
+                ELSE SUBSTRING(SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1) FROM 1 FOR POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) - 1)
+            END
+    END AS FORENAME2_TXT
+FROM 
+    DEDW50P.DGS_CUSTOMER_DETAIL A
+INNER JOIN 
+    DEDW50P.DGS_SCV_DEPOSITS B 
+    ON A.SCV_ID = B.SCV_ID;
+
+
 
