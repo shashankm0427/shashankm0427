@@ -1,4 +1,56 @@
-no---rouhj step 3---
+koi no---rouhj step 3---
+SELECT 
+    A.SCV_ID,
+    A.CUST_TITLE AS NAME_PREFIX_TXT,
+    -- Your other columns here...
+    CASE 
+        WHEN A.FIRST_NAME IS NULL OR TRIM(A.FIRST_NAME) = '' THEN ''
+        ELSE
+            CASE 
+                WHEN POSITION(' ' IN A.FIRST_NAME) > 0 
+                THEN
+                    CASE
+                        WHEN POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) > 0 
+                        THEN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1 FOR POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) - 1)
+                        ELSE SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)
+                    END
+                ELSE ''
+            END
+    END AS FORENAME3_TXT,
+    -- Logic for forename1_txt and forename2_txt
+    CASE 
+        WHEN A.FIRST_NAME IS NULL OR TRIM(A.FIRST_NAME) = '' THEN ''
+        ELSE
+            CASE
+                WHEN POSITION('-' IN A.FIRST_NAME) > 0 THEN SUBSTRING(A.FIRST_NAME FROM 1 FOR POSITION('-' IN A.FIRST_NAME) - 1)
+                WHEN POSITION(' ' IN A.FIRST_NAME) > 0 THEN SUBSTRING(A.FIRST_NAME FROM 1 FOR POSITION(' ' IN A.FIRST_NAME) - 1)
+                ELSE A.FIRST_NAME
+            END
+    END AS FORENAME1_TXT,
+    CASE 
+        WHEN A.FIRST_NAME IS NULL OR TRIM(A.FIRST_NAME) = '' THEN ''
+        ELSE
+            CASE
+                WHEN POSITION('-' IN A.FIRST_NAME) > 0 THEN
+                    CASE
+                        WHEN POSITION('-' IN SUBSTRING(A.FIRST_NAME FROM POSITION('-' IN A.FIRST_NAME) + 1)) > 0 
+                        THEN SUBSTRING(SUBSTRING(A.FIRST_NAME FROM POSITION('-' IN A.FIRST_NAME) + 1) FROM 1 FOR POSITION('-' IN SUBSTRING(A.FIRST_NAME FROM POSITION('-' IN A.FIRST_NAME) + 1)) - 1)
+                        ELSE SUBSTRING(A.FIRST_NAME FROM POSITION('-' IN A.FIRST_NAME) + 1)
+                    END
+                WHEN POSITION(' ' IN A.FIRST_NAME) > 0 THEN
+                    CASE
+                        WHEN POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) > 0 
+                        THEN SUBSTRING(SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1) FROM 1 FOR POSITION(' ' IN SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)) - 1)
+                        ELSE SUBSTRING(A.FIRST_NAME FROM POSITION(' ' IN A.FIRST_NAME) + 1)
+                    END
+                ELSE ''
+            END
+    END AS FORENAME2_TXT
+FROM 
+    DEDW50P.DGS_CUSTOMER_DETAIL A
+INNER JOIN 
+    DEDW50P.DGS_SCV_DEPOSITS B 
+    ON A.SCV_ID = B.SCV_ID;
 
 INSERT INTO temp_transformed_data
 SELECT 
