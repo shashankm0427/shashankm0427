@@ -1,3 +1,130 @@
+My changes----
+public class AIB_AP_OverrideReassignExtension {
+
+    public String comment{get;set;}
+    private final ProcessInstanceWorkitem processInstanceWorkItem;
+    ApexPages.standardController stdController = null;
+    private String originalActorId;
+    private String newActorId;
+    private String utpId;
+    private String sicrId;
+    public Boolean isDisabled{get;set;}
+    private String SICR_UTPLINEMANAGERAPPROVAL = 'AIB_CM_SICR_UTPLineManagerApproval';
+
+    /**********************************************************************************************
+* @Author:      Mouli Paul
+* @Date:        08/02/2022
+* @Description: This is a constructor method
+* @Revision(s): [Date] - [Change Reference] - [Changed By] - [Description] 
+***********************************************************************************************/ 
+    public AIB_AP_OverrideReassignExtension(ApexPages.StandardController stdController) {
+        this.stdController = stdController;
+        this.processInstanceWorkItem = (ProcessInstanceWorkItem)stdController.getRecord();
+        originalActorId = this.processInstanceWorkItem.ActorId;
+        isDisabled = False;
+    }
+
+    /**********************************************************************************************
+* @Author:      Mouli Paul
+* @Date:        08/02/2022
+* @Description:  This method will reassign the application
+* @Revision(s): [Date] - [Change Reference] - [Changed By] - [Description] 
+29/3/2022 - NCS-2042 - Kritika Agrawal - Stopping users to re-assign to themselves  
+****************************************************************************************************/ 
+    public PageReference save() {
+        try{
+            isDisabled = True;
+            newActorId = this.processInstanceWorkItem.ActorId;
+
+            List<AIB_UTPInformation__c> utpInfoList = new List<AIB_UTPInformation__c>();
+            List<AIB_SICRInformation__c> sicrInfoList = new List<AIB_SICRInformation__c>();
+
+            Map<Id,User> userMap = new Map<Id,User>(AIB_AP_OverrideReassignExtensionProvider.fetchUserInfo(userInfo.getUserId(),newActorId));
+
+            PermissionSetAssignment[] permissionSetList = AIB_AP_OverrideReassignExtensionProvider.fetchPermissionSet(SICR_UTPLINEMANAGERAPPROVAL,newActorId );
+
+            List<processInstanceWorkItem> processInstanceWorkItemList = AIB_AP_OverrideReassignExtensionProvider.fetchprocessInstanceWorkItemList(this.processInstanceWorkItem.Id);
+
+            if(processInstanceWorkItemList!= null && !processInstanceWorkItemList.isEmpty()){
+            if(Label.AIB_CM_UTP_Object_API_Name.equalsIgnoreCase(processInstanceWorkItemList[0].ProcessInstance.TargetObjectId.getSobjectType().toString())){
+               utpId = processInstanceWorkItemList[0].ProcessInstance.TargetObjectId;
+               sicrId = processInstanceWorkItemList[0].ProcessInstance.TargetObjectId;
+               }
+               utpInfoList = AIB_SICR_RetryCalloutComponentProvider.getUTPDetails(utpId);
+            }
+            if(string.isNotBlank(utpId) && (permissionSetList==null || permissionSetList.isEmpty() )){
+                return processError(Label.AIB_CM_ReassignPermissionUserUTPError);
+            }
+            if((newActorId == userInfo.getUserId() && string.isNotBlank(utpId)) || (newActorId == utpInfoList[0].CreatedById && string.isNotBlank(utpId))){
+                return processError(Label.AIB_CM_ReassignUTPError);
+            }
+            if(newActorId == userInfo.getUserId() && string.isBlank(utpId)){
+                return processError(Label.AIB_AP_ReassignError); //NCS-2042
+            }
+            if(userMap.get(userInfo.getUserId()).AIB_IDL__c == true && userMap.get(newActorId).AIB_IDL__c == false){//i: Replace false with actual condition when this is true then error should be shown.
+                return processError(Label.AIB_AP_IDLError);
+            }
+            else if(userMap.get(userInfo.getUserId()).AIB_DCA__c == true && userMap.get(newActorId).AIB_DCA__c == false){//i: Replace false with actual condition when this is true then error should be shown.
+                return processError(Label.AIB_AP_DCAError);
+            }
+            else{
+                stdController.save();
+                ProcessInstance[] processInstances = AIB_AP_OverrideReassignExtensionProvider.fetchProcessInstance(processInstanceWorkItemList[0].ProcessInstance.TargetObjectId);
+
+                    if(processInstances.size()>0 && processInstances.get(0).StepsAndWorkitems.size()>0 && !utpInfoList.isEmpty()){
+                    utpInfoList[0].AIB_CM_ApprovalStatus__c = AIB_Constants.STATUS_REASSIGNED;
+                    update utpInfoList;
+                    isDisabled = False;
+                  }
+                if(processInstances.size()>0 && processInstances.get(0).StepsAndWorkitems.size()>0 && Label.AIB_CM_Application_Object_API_Name.equalsIgnoreCase(processInstanceWorkItemList[0].ProcessInstance.TargetObjectId.getSobjectType().toString()))
+                {
+                    AIB_OtherDetails__c otherRec = new AIB_OtherDetails__c(
+                        AIB_ProcessInstanceStep__c = processInstances.get(0).StepsAndWorkitems.get(0).Id, 
+                        AIB_Comments__c = comment, 
+                        RecordTypeId = Schema.SObjectType.AIB_OtherDetails__c.getRecordTypeInfosByName()
+                        .get(AIB_Constants.APPROVAL_REASSIGN_RECORD_TYPE).getRecordTypeId(),
+                        AIB_Application__c = processInstanceWorkItemList[0].ProcessInstance.TargetObjectId);
+
+                    insert otherRec;
+                    isDisabled = False;
+                  }
+                isDisabled = False;
+                return new PageReference('/'+processInstances.get(0).StepsAndWorkitems.get(0).Id);
+            }            
+        }
+        catch(exception exp){
+            AIB_GenericLogger.log(AIB_AP_OverrideReassignExtension.class.getName(), 
+                                  AIB_Constants.CONSTANT_METHOD_NAME_SAVE, 
+                                  exp);
+            return processError(Label.AIB_BK_ErrorExceptionOccurred);
+        }
+    } 
+
+    /**********************************************************************************************
+* @Author:      Mouli Paul
+* @Date:        08/02/2022
+* @Description:  This is a cancel method
+* @Revision(s): [Date] - [Change Reference] - [Changed By] - [Description] 
+***********************************************************************************************/ 
+    public PageReference cancel() {
+        return stdController.cancel();
+    }
+
+    /**********************************************************************************************
+* @Author:      Mouli Paul
+* @Date:        08/02/2022
+* @Description:  This method will show the error messages
+* @Revision(s): [Date] - [Change Reference] - [Changed By] - [Description] 
+***********************************************************************************************/ 
+    public PageReference processError(String err) {
+        ApexPages.Message myMsg = new ApexPages.Message(ApexPages.Severity.ERROR,err);
+        ApexPages.addMessage(myMsg);
+        isDisabled = False;
+        return null;
+    }
+}
+
+My changes----
 koi no---rouhj step 3---
 final
 
