@@ -1,0 +1,1421 @@
+1                       J E S 2  J O B  L O G  --  S Y S T E M  S Y S A  --  N O D E  S Y S A
+0
+ 11.46.46 JOB08437 ---- THURSDAY,  04 JUN 2026 ----
+ 11.46.46 JOB08437  IRR010I  USERID IT78855  IS ASSIGNED TO THIS JOB.
+ 11.47.08 JOB08437  ICH70001I IT78855  LAST ACCESS AT 11:44:30 ON THURSDAY, JUNE 4, 2026
+ 11.47.08 JOB08437  £HASP373 EWT01RSB STARTED - WLM INIT  - SRVCLASS BAT_LO   - SYS SYSA
+ 11.47.08 JOB08437  IEF403I EWT01RSB - STARTED
+ 11.47.19 JOB08437  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 11.47.19 JOB08437  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    CPU    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS STEPNO
+ 11.47.19 JOB08437  -EWT01RSB          SQREBL40    00   4979    .00    .00    .19   4384   0      0      0      0     0     5
+ 11.47.22 JOB08437  -EWT01RSB          SQREBL45    00   3680    .00    .00    .03   4238   0      1      0      0     0     6
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL50    00   3675    .00    .00    .62   5122   0      0      0      0     0     7
+ 11.48.00 JOB08437  IEF404I EWT01RSB - ENDED
+ 11.48.00 JOB08437  -EWT01RSB ENDED.  NAME-DATA WAREHSE         TOTAL CPU TIME=   .00  TOTAL ELAPSED TIME=   .86
+ 11.48.00 JOB08437  -NOT_EXECUTED_STEP_TABLE BEGIN
+ 11.48.00 JOB08437  -JOBNAME  STEPNAME PROCSTEP STEPNO
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL05   1
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL10   2
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL20   3
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL30   4
+ 11.48.00 JOB08437  -NOT_EXECUTED_STEP_TABLE END
+ 11.48.00 JOB08437  £HASP395 EWT01RSB ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  04 JUN 2026 JOB EXECUTION DATE
+-          129 CARDS READ
+-          715 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           43 SYSOUT SPOOL KBYTES
+-         0.86 MINUTES EXECUTION TIME
+         1 //EWT01RSB JOB 9999,'DATA WAREHSE',CLASS=2,MSGCLASS=R,RESTART=SQREBL40  JOB08437
+           //*********************************************************************/
+           //* PROJECT  : RESIDUAL BALANCE CALCULATOR                            */
+           //* FUNCTION : EWT01RSB                                               */
+           //* DATE     : FEBRUARY 2026                                          */
+           //* AUTHOUR  : RASHMI JAISWAL                                         */
+           //* COPYRIGHT: ALLIED IRISH BANK PLC 2025                             */
+           //*********************************************************************/
+           //*********************************************************************/
+         2 //SQREBL05 EXEC PGM=BTQMAIN,COND=(0,NE)
+         3 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+         4 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+         5 //SYSOUT    DD SYSOUT=*
+         6 //SYSPRINT  DD SYSOUT=*
+         7 //SYSTERM   DD SYSOUT=*
+         8 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+         9 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        10 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL05),
+           //             DISP=SHR
+        11 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        12 //SQREBL10 EXEC PGM=BTQMAIN,COND=(0,NE)
+        13 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        14 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        15 //SYSOUT    DD SYSOUT=*
+        16 //SYSPRINT  DD SYSOUT=*
+        17 //SYSTERM   DD SYSOUT=*
+        18 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        19 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        20 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL10),
+           //             DISP=SHR
+        21 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        22 //SQREBL20 EXEC PGM=BTQMAIN,COND=(0,NE)
+        23 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        24 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        25 //SYSOUT    DD SYSOUT=*
+        26 //SYSPRINT  DD SYSOUT=*
+        27 //SYSTERM   DD SYSOUT=*
+        28 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        29 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        30 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL20),
+           //             DISP=SHR
+        31 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        32 //SQREBL30 EXEC PGM=BTQMAIN,COND=(0,NE)
+        33 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        34 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        35 //SYSOUT    DD SYSOUT=*
+        36 //SYSPRINT  DD SYSOUT=*
+        37 //SYSTERM   DD SYSOUT=*
+        38 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        39 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        40 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL30),
+           //             DISP=SHR
+        41 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        42 //SQREBL40 EXEC PGM=BTQMAIN,COND=(0,NE)
+        43 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        44 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        45 //SYSOUT    DD SYSOUT=*
+        46 //SYSPRINT  DD SYSOUT=*
+        47 //SYSTERM   DD SYSOUT=*
+        48 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        49 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        50 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL40),
+           //             DISP=SHR
+        51 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        52 //SQREBL45 EXEC PGM=BTQMAIN,COND=(0,NE)
+        53 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        54 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        55 //SYSOUT    DD SYSOUT=*
+        56 //SYSPRINT  DD SYSOUT=*
+        57 //SYSTERM   DD SYSOUT=*
+        58 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        59 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        60 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL45),
+           //             DISP=SHR
+        61 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        62 //SQREBL50 EXEC PGM=BTQMAIN,COND=(0,NE)
+        63 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        64 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        65 //SYSOUT    DD SYSOUT=*
+        66 //SYSPRINT  DD SYSOUT=*
+        67 //SYSTERM   DD SYSOUT=*
+        68 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        69 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        70 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL50),
+           //             DISP=SHR
+        71 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+        72 //SYSIN     DD *               GENERATED STATEMENT
+ ICH70001I IT78855  LAST ACCESS AT 11:44:30 ON THURSDAY, JUNE 4, 2026
+ IEFA111I EWT01RSB IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR EWT01RSB SQREBL40
+ IEF237I 5A4B ALLOCATED TO STEPLIB
+ IEF237I 5A4B ALLOCATED TO
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSTERM
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF142I EWT01RSB SQREBL40 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   EW.TEST.GTW.APPLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   EW.TEST.GTW.TPTLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000114.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000115.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000116.?         SYSOUT
+ IGD104I IT78855.LOGON                                RETAINED,  DDNAME=SYSIN
+ IGD104I EWS.REF.CONTROL.DDEWD18S                     RETAINED,  DDNAME=
+ IGD104I PV.TEST.CMNEW01.#013593.TE1                  RETAINED,  DDNAME=
+ IGD104I EW.REF.CONTROL.DML                           RETAINED,  DDNAME=
+ IEF373I STEP/SQREBL40/START 2026155.1147
+ IEF032I STEP/SQREBL40/STOP  2026155.1147
+         CPU:     0 HR  00 MIN  00.09 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  4756K  SYS:   780K  EXT:    35000K  SYS:    12152K
+         ATB- REAL:                   292K  SLOTS:                     0K
+              VIRT- ALLOC:      21M SHRD:       0M
+ IEF236I ALLOC. FOR EWT01RSB SQREBL45
+ IEF237I 5A4B ALLOCATED TO STEPLIB
+ IEF237I 5A4B ALLOCATED TO
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSTERM
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF142I EWT01RSB SQREBL45 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   EW.TEST.GTW.APPLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   EW.TEST.GTW.TPTLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000117.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000118.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000119.?         SYSOUT
+ IGD104I IT78855.LOGON                                RETAINED,  DDNAME=SYSIN
+ IGD104I EWS.REF.CONTROL.DDEWD18S                     RETAINED,  DDNAME=
+ IGD104I PV.TEST.CMNEW01.#013593.TE1                  RETAINED,  DDNAME=
+ IGD104I EW.REF.CONTROL.DML                           RETAINED,  DDNAME=
+ IEF373I STEP/SQREBL45/START 2026155.1147
+ IEF032I STEP/SQREBL45/STOP  2026155.1147
+         CPU:     0 HR  00 MIN  00.08 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  4756K  SYS:   780K  EXT:    35000K  SYS:    12244K
+         ATB- REAL:                   292K  SLOTS:                     0K
+              VIRT- ALLOC:      21M SHRD:       0M
+ IEF236I ALLOC. FOR EWT01RSB SQREBL50
+ IEF237I 5A4B ALLOCATED TO STEPLIB
+ IEF237I 5A4B ALLOCATED TO
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSTERM
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF142I EWT01RSB SQREBL50 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   EW.TEST.GTW.APPLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   EW.TEST.GTW.TPTLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000120.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000121.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000122.?         SYSOUT
+ IGD104I IT78855.LOGON                                RETAINED,  DDNAME=SYSIN
+ IGD104I EWS.REF.CONTROL.DDEWD18S                     RETAINED,  DDNAME=
+ IGD104I PV.TEST.CMNEW01.#013593.TE1                  RETAINED,  DDNAME=
+ IGD104I EW.REF.CONTROL.DML                           RETAINED,  DDNAME=
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000101.?         SYSIN
+ IEF373I STEP/SQREBL50/START 2026155.1147
+ IEF032I STEP/SQREBL50/STOP  2026155.1148
+         CPU:     0 HR  00 MIN  00.10 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  4756K  SYS:   780K  EXT:    35000K  SYS:    12248K
+         ATB- REAL:                   292K  SLOTS:                     0K
+              VIRT- ALLOC:      21M SHRD:       0M
+ IEF375I  JOB/EWT01RSB/START 2026155.1147
+ IEF033I  JOB/EWT01RSB/STOP  2026155.1148
+         CPU:     0 HR  00 MIN  00.27 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+ BTEQ 20.00.00.07 Thu Jun  4 11:47:08 2026 PID: 131991
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .LOGON ncrdwprod.aib.pri/DW78855,
+0 *** Logon successfully completed.
+  *** Teradata Database Release is 17.20.03.39
+  *** Teradata Database Version is 17.20.03.39
+  *** Transaction semantics are BTET.
+  *** Session Character Set Name is 'EBCDIC'.
+
+  *** Total elapsed time was 0.44 seconds.
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ DATABASE DDEWD18S;
+0 *** New default database accepted.
+  *** Total elapsed time was 0.07 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ /*********************************************************************/
+ /* PROJECT   : ENTERPRISE WAREHOUSE                                  */
+ /* NAME      : SQRSBL40                                              */
+ /* FUNCTION  : PRODUCTIONISED RESIDUAL BALANCE CALCULATOR            */
+ /* DATE      : FEBRUARY 2026                                         */
+ /* AUTHOR    : RASHMI JAISWAL                                        */
+ /* VERSION   : 1.0                                                   */
+ /* COPYRIGHT : ALLIED IRISH BANK PLC 2017                            */
+ /*********************************************************************/
+ /*********************************************************************/
+ /* POPULATE RSDL_BAL_CALC_PERIODIC                                   */
+ /*********************************************************************/
+ INSERT INTO RSDL_BAL_CALC_PERIODIC
+ (
+  WH_ACC_NO
+ ,ACC_NO
+ ,APPL_ID
+ ,APPL_PROD_ID
+ ,UNIQUE_KEY_INT
+ ,MIN_REPAYMENT
+ ,TERM_NO_UNITS
+ ,REPAYMT_AMT
+ ,REPAYMT_UNIT
+ ,REPAYMT_INTERVAL
+ ,REPAYMT_DAY
+ ,ACCRD_INT
+ ,CURRENT_CNTRACT_MATURITY_DTE
+ ,CNTRACT_MATURITY_DTE
+ ,NXT_REPRICING_DTE
+ ,PROD_CDE
+ ,REPAYMT_EXCPTN_DESCR
+ ,EXPIRY_DTE
+ ,EXPIRY_NXT_WORKDAY_DTE
+ ,POSTED_DTE
+ ,DATE_ROW_NUMBER
+ ,NAPS_REPAYMT_NO
+ ,INT_RTE
+ ,INTEREST_ACCRUAL_FLAG
+ ,INTEREST_POSTED_FLAG
+ ,NO_DAYS
+ ,PAYMENT_COUNTER
+ ,PAYMENT_FLAG
+ ,REPAYMT_AMT_FINAL
+ ,DR_INT_CAT
+ ,NET_BAL_FOR_PRNCPL
+ ,RESIDUAL_BAL_AMT
+ ,RESIDUAL_BAL_IND
+ ,EXCLUDED_IND
+ ,DIFF_EXPIRY_DATES
+ ,WEEKLY_REPAYMTS
+ ,REPAYMT_AMT_0
+ ,REPAYMT_INTERVAL_0
+ ,OTHER_REPAYMT_TYPE
+ ,NON_NAPS
+ ,EXPIRED
+ ,REASON
+ ,PERIOD_DTE
+ ,SRCE_SYS
+ ,SRCE_INST
+ ,LOAD_DTE
+ ,LOAD_TIME
+ )
+0SELECT
+   BASE.WH_ACC_NO
+  ,BASE.ACC_NO
+  ,BASE.APPL_ID
+  ,BASE.APPL_PROD_ID
+  ,BASE.UNIQUE_KEY_INT
+  ,CASE WHEN EXCLUDED_IND = 'Y'
+        THEN
+         NULL
+        ELSE
+         BASE.MIN_REPAYMENT
+   END AS MIN_REPAYMENT
+0 ,BASE.TERM_NO_UNITS
+  ,BASE.REPAYMT_AMT
+  ,BASE.REPAYMT_UNIT
+  ,BASE.REPAYMT_INTERVAL
+  ,BASE.REPAYMT_DAY
+  ,BASE.ACCRD_INT
+  ,BASE.CURRENT_CNTRACT_MATURITY_DTE
+  ,BASE.CNTRACT_MATURITY_DTE
+  ,BASE.NXT_REPRICING_DTE
+  ,BASE.PROD_CDE
+  ,BASE.REPAYMT_EXCPTN_DESCR
+  ,BASE.EXPIRY_DTE
+  ,BASE.EXPIRY_NXT_WORKDAY_DTE
+  ,RB.POSTED_DTE
+  ,RB.DATE_ROW_NUMBER
+  ,BASE.NAPS_REPAYMT_NO
+  ,BASE.INT_RTE
+  ,RB.INTEREST_ACCRUAL_FLAG
+  ,RB.INTEREST_POSTED_FLAG
+  ,RB.NO_DAYS
+  ,RB.PAYMENT_COUNTER
+  ,RB.PAYMENT_FLAG
+  ,BASE.REPAYMT_AMT AS REPAYMT_AMT_FINAL
+  ,BASE.DR_INT_CAT
+  ,BASE.NET_BAL_FOR_PRNCPL
+  ,CASE WHEN
+    RB.INTEREST_POSTED_FLAG = 1
+   AND
+   RB.PAYMENT_FLAG = 1
+   AND
+   RB.BALANCE < 0
+        THEN
+         CAST(RB.BALANCE AS DECIMAL(18,2))
+        WHEN
+         RB.INTEREST_POSTED_FLAG = 1
+        AND
+         RB.PAYMENT_FLAG = 1
+        AND
+         RB.BALANCE >= 0
+        THEN
+        CAST(0 AS DECIMAL(18,2))
+       WHEN
+        RB.INTEREST_POSTED_FLAG = 1
+       AND
+        RB.POSTED_DTE = RB.EXPIRY_NXT_WORKDAY_DTE
+       AND
+        RB.BALANCE < 0
+       THEN
+        CAST(RB.BALANCE AS DECIMAL(18,2))
+       WHEN
+        RB.INTEREST_POSTED_FLAG = 1
+       AND
+        RB.POSTED_DTE = RB.EXPIRY_NXT_WORKDAY_DTE
+       AND
+        RB.BALANCE >= 0
+       THEN
+        CAST(0 AS DECIMAL(18,2))
+       WHEN
+        RB.BALANCE + TRUNC(RB.FORECAST_INTEREST_CUMULATIVE) < 0
+       THEN
+        CAST(RB.BALANCE + TRUNC(RB.FORECAST_INTEREST_CUMULATIVE,2)
+        AS DECIMAL(18,2))
+       WHEN
+        RB.BALANCE + TRUNC(RB.FORECAST_INTEREST_CUMULATIVE) > 0
+       THEN
+        0
+       ELSE
+        0
+ END AS
+  RESIDUAL_BAL_AMT
+0,CASE WHEN RESIDUAL_BAL_AMT < 0
+       THEN
+        1
+       ELSE
+        0
+ END AS
+  RESIDUAL_BAL_IND
+ ,BASE.EXCLUDED_IND
+ ,DIFF_EXPIRY_DATES
+ ,WEEKLY_REPAYMTS
+ ,REPAYMT_AMT_0
+ ,REPAYMT_INTERVAL_0
+ ,OTHER_REPAYMT_TYPE
+ ,NON_NAPS
+ ,EXPIRED
+ ,CASE WHEN DIFF_EXPIRY_DATES + WEEKLY_REPAYMTS +REPAYMT_AMT_0 +
+  REPAYMT_INTERVAL_0 + OTHER_REPAYMT_TYPE + NON_NAPS + EXPIRED >1
+       THEN
+        'MULTIPLE'
+       WHEN
+      BASE.DIFF_EXPIRY_DATES = 1
+     THEN
+      COALESCE('EXPIRY DATES DIFFERENT','')
+     WHEN
+      BASE.WEEKLY_REPAYMTS = 1
+     THEN
+      COALESCE('WEEKLY REPAYMENTS','')
+     WHEN
+      BASE.REPAYMT_AMT_0 = 1
+     THEN
+      COALESCE ('REPAYMENT AMT IS 0', '')
+     WHEN
+      BASE.REPAYMT_INTERVAL_0 = 1
+     THEN
+      COALESCE ('REPAYMENT INTERVAL IS 0', '')
+     WHEN
+      BASE.OTHER_REPAYMT_TYPE = 1
+     THEN
+      COALESCE ('BULLET OR OTHER REPAYMT SCHED', '')
+     WHEN
+     BASE.NON_NAPS = 1
+    THEN
+     COALESCE ('NO NAPS APPLICATION', '')
+    WHEN
+     BASE.EXPIRED = 1
+    THEN
+     COALESCE ('EXPIRED ON REPORT DATE', '')
+    WHEN
+     EXCLUDED_IND = 'N'
+    THEN
+    'RESIDUAL BAL CALCD'
+    ELSE
+     NULL
+ END AS
+  REASON
+ ,BASE.PERIOD_DTE
+ ,BASE.APPL_SRCE_SYS AS SRCE_SYS
+ ,BASE.SRCE_INST
+ ,DATE AS LOAD_DTE
+ ,TIME AS LOAD_TIME
+0FROM
+  SQRSBL10_RSDL_BAL_ACC_BASE BASE
+0LEFT JOIN
+  SQRSBL30_RESI_BAL_RCRSN RB
+ ON
+  RB.WH_ACC_NO = BASE.WH_ACC_NO
+0WHERE
+ (RB.POSTED_DTE <= RB.EXPIRY_NXT_WORKDAY_DTE
+ OR
+  RB.WH_ACC_NO IS NULL)
+0QUALIFY
+ ROW_NUMBER () OVER
+ ( PARTITION BY BASE.WH_ACC_NO    ORDER BY
+ RB.DATE_ROW_NUMBER DESC) =1;
+0 *** Insert completed. 34213 rows added.
+  *** Total elapsed time was 3.57 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0.IF ERRORCODE <> 0 THEN .QUIT 8
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0/**********************************************************************/
+ /* COLLECT STATISTICS                                                 */
+ /**********************************************************************/
+ COLLECT STATISTICS
+  INDEX (UNIQUE_KEY_INT, WH_ACC_NO)
+ ,COLUMN (UNIQUE_KEY_INT)
+ ,COLUMN (WH_ACC_NO)
+ ,COLUMN (EXPIRY_DTE)
+ ,COLUMN (EXPIRY_NXT_WORKDAY_DTE)
+ ON RSDL_BAL_CALC_PERIODIC
+ ;
+0 *** Update completed. 6 rows changed.
+  *** Total elapsed time was 7.19 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .IF ERRORCODE <> 0 THEN .QUIT 8
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .QUIT 0
+  *** You are now logged off from the DBC.
+0 *** Exiting BTEQ...
+0 Ending BTEQ  Thu Jun  4 11:47:19 2026
+0
+ BTEQ 20.00.00.07 Thu Jun  4 11:47:20 2026 PID: 16909207
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .LOGON ncrdwprod.aib.pri/DW78855,
+0 *** Logon successfully completed.
+  *** Teradata Database Release is 17.20.03.39
+  *** Teradata Database Version is 17.20.03.39
+  *** Transaction semantics are BTET.
+  *** Session Character Set Name is 'EBCDIC'.
+
+  *** Total elapsed time was 0.36 seconds.
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ DATABASE DDEWD18S;
+0 *** New default database accepted.
+  *** Total elapsed time was 0.15 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ /*********************************************************************/
+ /* PROJECT   : ENTERPRISE WAREHOUSE                                  */
+ /* NAME      : SQRSBL45                                              */
+ /* FUNCTION  : INSERT INTO AUDIT LOG                                 */
+ /* DATE      : FEB 2026                                              */
+ /* AUTHOR    : RASHMI JAISWAL                                        */
+ /* VERSION   : 1.0                                                   */
+ /* COPYRIGHT : ALLIED IRISH BANK PLC 2013                            */
+ /*********************************************************************/
+ /*********************************************************************/
+ /* INSERT INTO AUDIT LOG                                             */
+ /*********************************************************************/
+0  INSERT INTO AUDIT_LOG
+  (
+   TABLE_NAME
+  ,STEP
+  ,SRCE_SYS
+  ,SRCE_INST
+  ,TOTAL_INSERTS
+  ,TOTAL_UPDATES
+  ,TOTAL_DELETES
+  ,RUN_CONTROL_DTE
+  ,LOAD_DTE
+  ,LOAD_TIME
+  ,LOG_DTE
+  ,LOG_TIME
+  )
+0  SELECT
+   'RSDL_BAL_CALC_PERIODIC'
+  ,'SQREBL40'
+  ,COALESCE(REB.SRCE_SYS, 0)
+  ,REB.SRCE_INST
+  ,COUNT(*)
+  ,0
+  ,0
+  ,DTE.RUN_CONTROL_DTE
+  ,DTE.LOAD_DTE
+  ,DTE.LOAD_TIME
+  ,DATE
+  ,TIME
+0  FROM
+    RSDL_BAL_CALC_PERIODIC REB
+0  CROSS JOIN
+    FDM_RUN_DATE DTE
+0  GROUP BY
+     DTE.RUN_CONTROL_DTE
+    ,REB.SRCE_SYS
+    ,REB.SRCE_INST
+    ,DTE.LOAD_DTE
+    ,DTE.LOAD_TIME
+    ;
+0 *** Insert completed. 2 rows added.
+  *** Total elapsed time was 1.61 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0  .IF ERRORCODE <> 0 THEN .QUIT 8
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .QUIT 0
+  *** You are now logged off from the DBC.
+0 *** Exiting BTEQ...
+0 Ending BTEQ  Thu Jun  4 11:47:22 2026
+0
+ BTEQ 20.00.00.07 Thu Jun  4 11:47:22 2026 PID: 33686423
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .LOGON ncrdwprod.aib.pri/DW78855,
+0 *** Logon successfully completed.
+  *** Teradata Database Release is 17.20.03.39
+  *** Teradata Database Version is 17.20.03.39
+  *** Transaction semantics are BTET.
+  *** Session Character Set Name is 'EBCDIC'.
+
+  *** Total elapsed time was 0.37 seconds.
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ DATABASE DDEWD18S;
+0 *** New default database accepted.
+  *** Total elapsed time was 0.06 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ /*********************************************************************/
+ /* PROJECT   : ENTERPRISE WAREHOUSE                                  */
+ /* NAME      : SQRSBL50                                              */
+ /* FUNCTION  : DROP THE TEMPORARY TABLE                              */
+ /* DATE      : FEB 2026                                              */
+ /* AUTHOR    : RASHMI JAISWAL                                        */
+ /* VERSION   : 1.0                                                   */
+ /* COPYRIGHT : ALLIED IRISH BANK PLC 2013                            */
+ /*********************************************************************/
+ /*********************************************************************/
+ /* DROP THE TEMPORARY TABLE                                          */
+ /*********************************************************************/
+0 DELETE FROM SQRSBL10_ACCOUNT_PAYMENTS;
+0 *** Delete completed. 2926097 rows removed.
+  *** Total elapsed time was 0.54 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL10_ACCOUNT_PAYMENTS;
+0 *** Table has been dropped.
+  *** Total elapsed time was 3.00 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL10_RSDL_BAL_ACC_BASE;
+0 *** Delete completed. 34213 rows removed.
+  *** Total elapsed time was 1.35 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL10_RSDL_BAL_ACC_BASE;
+0 *** Table has been dropped.
+  *** Total elapsed time was 4.52 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL20_NUMBER_LIST;
+0 *** Delete completed. 400 rows removed.
+  *** Total elapsed time was 1.02 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL20_NUMBER_LIST;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.98 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL20_PRD_RESI_PYMNT_DTES;
+0 *** Delete completed. 1253378 rows removed.
+  *** Total elapsed time was 1.49 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL20_PRD_RESI_PYMNT_DTES;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.72 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RSDL_BAL_CAL;
+0 *** Delete completed. 23791833 rows removed.
+  *** Total elapsed time was 1.46 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RSDL_BAL_CAL;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.82 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_CAL_UPD;
+0 *** Delete completed. 23791833 rows removed.
+  *** Total elapsed time was 1.05 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_CAL_UPD;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.10 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_1;
+0 *** Delete completed. 23791833 rows removed.
+  *** Total elapsed time was 1.10 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_1;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.29 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 0.77 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.07 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_FLAGS_PRD;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 1.01 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_FLAGS_PRD;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.68 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_FLAGS;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 0.66 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_FLAGS;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.82 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_RESI_BAL_RCRSN;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 1.00 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_RESI_BAL_RCRSN;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.47 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .QUIT 0
+  *** You are now logged off from the DBC.
+0 *** Exiting BTEQ...
+0 Ending BTEQ  Thu Jun  4 11:48:00 2026
+0
+1                       J E S 2  J O B  L O G  --  S Y S T E M  S Y S A  --  N O D E  S Y S A
+0
+ 11.46.46 JOB08437 ---- THURSDAY,  04 JUN 2026 ----
+ 11.46.46 JOB08437  IRR010I  USERID IT78855  IS ASSIGNED TO THIS JOB.
+ 11.47.08 JOB08437  ICH70001I IT78855  LAST ACCESS AT 11:44:30 ON THURSDAY, JUNE 4, 2026
+ 11.47.08 JOB08437  £HASP373 EWT01RSB STARTED - WLM INIT  - SRVCLASS BAT_LO   - SYS SYSA
+ 11.47.08 JOB08437  IEF403I EWT01RSB - STARTED
+ 11.47.19 JOB08437  -                                         --TIMINGS (MINS.)--            ----PAGING COUNTS---
+ 11.47.19 JOB08437  -JOBNAME  STEPNAME PROCSTEP    RC   EXCP    CPU    SRB  CLOCK   SERV  PG   PAGE   SWAP    VIO SWAPS STEPNO
+ 11.47.19 JOB08437  -EWT01RSB          SQREBL40    00   4979    .00    .00    .19   4384   0      0      0      0     0     5
+ 11.47.22 JOB08437  -EWT01RSB          SQREBL45    00   3680    .00    .00    .03   4238   0      1      0      0     0     6
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL50    00   3675    .00    .00    .62   5122   0      0      0      0     0     7
+ 11.48.00 JOB08437  IEF404I EWT01RSB - ENDED
+ 11.48.00 JOB08437  -EWT01RSB ENDED.  NAME-DATA WAREHSE         TOTAL CPU TIME=   .00  TOTAL ELAPSED TIME=   .86
+ 11.48.00 JOB08437  -NOT_EXECUTED_STEP_TABLE BEGIN
+ 11.48.00 JOB08437  -JOBNAME  STEPNAME PROCSTEP STEPNO
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL05   1
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL10   2
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL20   3
+ 11.48.00 JOB08437  -EWT01RSB          SQREBL30   4
+ 11.48.00 JOB08437  -NOT_EXECUTED_STEP_TABLE END
+ 11.48.00 JOB08437  £HASP395 EWT01RSB ENDED - RC=0000
+0------ JES2 JOB STATISTICS ------
+-  04 JUN 2026 JOB EXECUTION DATE
+-          129 CARDS READ
+-          715 SYSOUT PRINT RECORDS
+-            0 SYSOUT PUNCH RECORDS
+-           43 SYSOUT SPOOL KBYTES
+-         0.86 MINUTES EXECUTION TIME
+         1 //EWT01RSB JOB 9999,'DATA WAREHSE',CLASS=2,MSGCLASS=R,RESTART=SQREBL40  JOB08437
+           //*********************************************************************/
+           //* PROJECT  : RESIDUAL BALANCE CALCULATOR                            */
+           //* FUNCTION : EWT01RSB                                               */
+           //* DATE     : FEBRUARY 2026                                          */
+           //* AUTHOUR  : RASHMI JAISWAL                                         */
+           //* COPYRIGHT: ALLIED IRISH BANK PLC 2025                             */
+           //*********************************************************************/
+           //*********************************************************************/
+         2 //SQREBL05 EXEC PGM=BTQMAIN,COND=(0,NE)
+         3 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+         4 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+         5 //SYSOUT    DD SYSOUT=*
+         6 //SYSPRINT  DD SYSOUT=*
+         7 //SYSTERM   DD SYSOUT=*
+         8 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+         9 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        10 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL05),
+           //             DISP=SHR
+        11 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        12 //SQREBL10 EXEC PGM=BTQMAIN,COND=(0,NE)
+        13 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        14 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        15 //SYSOUT    DD SYSOUT=*
+        16 //SYSPRINT  DD SYSOUT=*
+        17 //SYSTERM   DD SYSOUT=*
+        18 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        19 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        20 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL10),
+           //             DISP=SHR
+        21 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        22 //SQREBL20 EXEC PGM=BTQMAIN,COND=(0,NE)
+        23 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        24 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        25 //SYSOUT    DD SYSOUT=*
+        26 //SYSPRINT  DD SYSOUT=*
+        27 //SYSTERM   DD SYSOUT=*
+        28 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        29 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        30 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL20),
+           //             DISP=SHR
+        31 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        32 //SQREBL30 EXEC PGM=BTQMAIN,COND=(0,NE)
+        33 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        34 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        35 //SYSOUT    DD SYSOUT=*
+        36 //SYSPRINT  DD SYSOUT=*
+        37 //SYSTERM   DD SYSOUT=*
+        38 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        39 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        40 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL30),
+           //             DISP=SHR
+        41 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        42 //SQREBL40 EXEC PGM=BTQMAIN,COND=(0,NE)
+        43 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        44 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        45 //SYSOUT    DD SYSOUT=*
+        46 //SYSPRINT  DD SYSOUT=*
+        47 //SYSTERM   DD SYSOUT=*
+        48 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        49 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        50 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL40),
+           //             DISP=SHR
+        51 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        52 //SQREBL45 EXEC PGM=BTQMAIN,COND=(0,NE)
+        53 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        54 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        55 //SYSOUT    DD SYSOUT=*
+        56 //SYSPRINT  DD SYSOUT=*
+        57 //SYSTERM   DD SYSOUT=*
+        58 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        59 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        60 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL45),
+           //             DISP=SHR
+        61 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+           //*********************************************************************
+        62 //SQREBL50 EXEC PGM=BTQMAIN,COND=(0,NE)
+        63 //STEPLIB   DD DSN=EW.TEST.GTW.APPLOAD,
+           //             DISP=SHR
+        64 //          DD DSN=EW.TEST.GTW.TPTLOAD,
+           //             DISP=SHR
+        65 //SYSOUT    DD SYSOUT=*
+        66 //SYSPRINT  DD SYSOUT=*
+        67 //SYSTERM   DD SYSOUT=*
+        68 //SYSIN     DD DSN=IT78855.LOGON(PLOGON),
+           //             DISP=SHR
+        69 //          DD DSN=EWS.REF.CONTROL.DDEWD18S(DBD18S),
+           //             DISP=SHR
+        70 //          DD DSN=PV.TEST.CMNEW01.#013593.TE1(SQRSBL50),
+           //             DISP=SHR
+        71 //          DD DSN=EW.REF.CONTROL.DML(SQQUIT0),
+           //             DISP=SHR
+        72 //SYSIN     DD *               GENERATED STATEMENT
+ ICH70001I IT78855  LAST ACCESS AT 11:44:30 ON THURSDAY, JUNE 4, 2026
+ IEFA111I EWT01RSB IS USING THE FOLLOWING JOB RELATED SETTINGS:
+          SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+ IEF236I ALLOC. FOR EWT01RSB SQREBL40
+ IEF237I 5A4B ALLOCATED TO STEPLIB
+ IEF237I 5A4B ALLOCATED TO
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSTERM
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF142I EWT01RSB SQREBL40 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   EW.TEST.GTW.APPLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   EW.TEST.GTW.TPTLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000114.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000115.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000116.?         SYSOUT
+ IGD104I IT78855.LOGON                                RETAINED,  DDNAME=SYSIN
+ IGD104I EWS.REF.CONTROL.DDEWD18S                     RETAINED,  DDNAME=
+ IGD104I PV.TEST.CMNEW01.#013593.TE1                  RETAINED,  DDNAME=
+ IGD104I EW.REF.CONTROL.DML                           RETAINED,  DDNAME=
+ IEF373I STEP/SQREBL40/START 2026155.1147
+ IEF032I STEP/SQREBL40/STOP  2026155.1147
+         CPU:     0 HR  00 MIN  00.09 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  4756K  SYS:   780K  EXT:    35000K  SYS:    12152K
+         ATB- REAL:                   292K  SLOTS:                     0K
+              VIRT- ALLOC:      21M SHRD:       0M
+ IEF236I ALLOC. FOR EWT01RSB SQREBL45
+ IEF237I 5A4B ALLOCATED TO STEPLIB
+ IEF237I 5A4B ALLOCATED TO
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSTERM
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF142I EWT01RSB SQREBL45 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   EW.TEST.GTW.APPLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   EW.TEST.GTW.TPTLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000117.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000118.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000119.?         SYSOUT
+ IGD104I IT78855.LOGON                                RETAINED,  DDNAME=SYSIN
+ IGD104I EWS.REF.CONTROL.DDEWD18S                     RETAINED,  DDNAME=
+ IGD104I PV.TEST.CMNEW01.#013593.TE1                  RETAINED,  DDNAME=
+ IGD104I EW.REF.CONTROL.DML                           RETAINED,  DDNAME=
+ IEF373I STEP/SQREBL45/START 2026155.1147
+ IEF032I STEP/SQREBL45/STOP  2026155.1147
+         CPU:     0 HR  00 MIN  00.08 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  4756K  SYS:   780K  EXT:    35000K  SYS:    12244K
+         ATB- REAL:                   292K  SLOTS:                     0K
+              VIRT- ALLOC:      21M SHRD:       0M
+ IEF236I ALLOC. FOR EWT01RSB SQREBL50
+ IEF237I 5A4B ALLOCATED TO STEPLIB
+ IEF237I 5A4B ALLOCATED TO
+ IEF237I JES2 ALLOCATED TO SYSOUT
+ IEF237I JES2 ALLOCATED TO SYSPRINT
+ IEF237I JES2 ALLOCATED TO SYSTERM
+ IGD103I SMS ALLOCATED TO DDNAME SYSIN
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IGD103I SMS ALLOCATED TO DDNAME
+ IEF237I JES2 ALLOCATED TO SYSIN
+ IEF142I EWT01RSB SQREBL50 - STEP WAS EXECUTED - COND CODE 0000
+ IEF285I   EW.TEST.GTW.APPLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   EW.TEST.GTW.TPTLOAD                          KEPT
+ IEF285I   VOL SER NOS= SYP228.
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000120.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000121.?         SYSOUT
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000122.?         SYSOUT
+ IGD104I IT78855.LOGON                                RETAINED,  DDNAME=SYSIN
+ IGD104I EWS.REF.CONTROL.DDEWD18S                     RETAINED,  DDNAME=
+ IGD104I PV.TEST.CMNEW01.#013593.TE1                  RETAINED,  DDNAME=
+ IGD104I EW.REF.CONTROL.DML                           RETAINED,  DDNAME=
+ IEF285I   IT78855.EWT01RSB.JOB08437.D0000101.?         SYSIN
+ IEF373I STEP/SQREBL50/START 2026155.1147
+ IEF032I STEP/SQREBL50/STOP  2026155.1148
+         CPU:     0 HR  00 MIN  00.10 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         VIRT:  4756K  SYS:   780K  EXT:    35000K  SYS:    12248K
+         ATB- REAL:                   292K  SLOTS:                     0K
+              VIRT- ALLOC:      21M SHRD:       0M
+ IEF375I  JOB/EWT01RSB/START 2026155.1147
+ IEF033I  JOB/EWT01RSB/STOP  2026155.1148
+         CPU:     0 HR  00 MIN  00.27 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+ BTEQ 20.00.00.07 Thu Jun  4 11:47:08 2026 PID: 131991
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .LOGON ncrdwprod.aib.pri/DW78855,
+0 *** Logon successfully completed.
+  *** Teradata Database Release is 17.20.03.39
+  *** Teradata Database Version is 17.20.03.39
+  *** Transaction semantics are BTET.
+  *** Session Character Set Name is 'EBCDIC'.
+
+  *** Total elapsed time was 0.44 seconds.
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ DATABASE DDEWD18S;
+0 *** New default database accepted.
+  *** Total elapsed time was 0.07 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ /*********************************************************************/
+ /* PROJECT   : ENTERPRISE WAREHOUSE                                  */
+ /* NAME      : SQRSBL40                                              */
+ /* FUNCTION  : PRODUCTIONISED RESIDUAL BALANCE CALCULATOR            */
+ /* DATE      : FEBRUARY 2026                                         */
+ /* AUTHOR    : RASHMI JAISWAL                                        */
+ /* VERSION   : 1.0                                                   */
+ /* COPYRIGHT : ALLIED IRISH BANK PLC 2017                            */
+ /*********************************************************************/
+ /*********************************************************************/
+ /* POPULATE RSDL_BAL_CALC_PERIODIC                                   */
+ /*********************************************************************/
+ INSERT INTO RSDL_BAL_CALC_PERIODIC
+ (
+  WH_ACC_NO
+ ,ACC_NO
+ ,APPL_ID
+ ,APPL_PROD_ID
+ ,UNIQUE_KEY_INT
+ ,MIN_REPAYMENT
+ ,TERM_NO_UNITS
+ ,REPAYMT_AMT
+ ,REPAYMT_UNIT
+ ,REPAYMT_INTERVAL
+ ,REPAYMT_DAY
+ ,ACCRD_INT
+ ,CURRENT_CNTRACT_MATURITY_DTE
+ ,CNTRACT_MATURITY_DTE
+ ,NXT_REPRICING_DTE
+ ,PROD_CDE
+ ,REPAYMT_EXCPTN_DESCR
+ ,EXPIRY_DTE
+ ,EXPIRY_NXT_WORKDAY_DTE
+ ,POSTED_DTE
+ ,DATE_ROW_NUMBER
+ ,NAPS_REPAYMT_NO
+ ,INT_RTE
+ ,INTEREST_ACCRUAL_FLAG
+ ,INTEREST_POSTED_FLAG
+ ,NO_DAYS
+ ,PAYMENT_COUNTER
+ ,PAYMENT_FLAG
+ ,REPAYMT_AMT_FINAL
+ ,DR_INT_CAT
+ ,NET_BAL_FOR_PRNCPL
+ ,RESIDUAL_BAL_AMT
+ ,RESIDUAL_BAL_IND
+ ,EXCLUDED_IND
+ ,DIFF_EXPIRY_DATES
+ ,WEEKLY_REPAYMTS
+ ,REPAYMT_AMT_0
+ ,REPAYMT_INTERVAL_0
+ ,OTHER_REPAYMT_TYPE
+ ,NON_NAPS
+ ,EXPIRED
+ ,REASON
+ ,PERIOD_DTE
+ ,SRCE_SYS
+ ,SRCE_INST
+ ,LOAD_DTE
+ ,LOAD_TIME
+ )
+0SELECT
+   BASE.WH_ACC_NO
+  ,BASE.ACC_NO
+  ,BASE.APPL_ID
+  ,BASE.APPL_PROD_ID
+  ,BASE.UNIQUE_KEY_INT
+  ,CASE WHEN EXCLUDED_IND = 'Y'
+        THEN
+         NULL
+        ELSE
+         BASE.MIN_REPAYMENT
+   END AS MIN_REPAYMENT
+0 ,BASE.TERM_NO_UNITS
+  ,BASE.REPAYMT_AMT
+  ,BASE.REPAYMT_UNIT
+  ,BASE.REPAYMT_INTERVAL
+  ,BASE.REPAYMT_DAY
+  ,BASE.ACCRD_INT
+  ,BASE.CURRENT_CNTRACT_MATURITY_DTE
+  ,BASE.CNTRACT_MATURITY_DTE
+  ,BASE.NXT_REPRICING_DTE
+  ,BASE.PROD_CDE
+  ,BASE.REPAYMT_EXCPTN_DESCR
+  ,BASE.EXPIRY_DTE
+  ,BASE.EXPIRY_NXT_WORKDAY_DTE
+  ,RB.POSTED_DTE
+  ,RB.DATE_ROW_NUMBER
+  ,BASE.NAPS_REPAYMT_NO
+  ,BASE.INT_RTE
+  ,RB.INTEREST_ACCRUAL_FLAG
+  ,RB.INTEREST_POSTED_FLAG
+  ,RB.NO_DAYS
+  ,RB.PAYMENT_COUNTER
+  ,RB.PAYMENT_FLAG
+  ,BASE.REPAYMT_AMT AS REPAYMT_AMT_FINAL
+  ,BASE.DR_INT_CAT
+  ,BASE.NET_BAL_FOR_PRNCPL
+  ,CASE WHEN
+    RB.INTEREST_POSTED_FLAG = 1
+   AND
+   RB.PAYMENT_FLAG = 1
+   AND
+   RB.BALANCE < 0
+        THEN
+         CAST(RB.BALANCE AS DECIMAL(18,2))
+        WHEN
+         RB.INTEREST_POSTED_FLAG = 1
+        AND
+         RB.PAYMENT_FLAG = 1
+        AND
+         RB.BALANCE >= 0
+        THEN
+        CAST(0 AS DECIMAL(18,2))
+       WHEN
+        RB.INTEREST_POSTED_FLAG = 1
+       AND
+        RB.POSTED_DTE = RB.EXPIRY_NXT_WORKDAY_DTE
+       AND
+        RB.BALANCE < 0
+       THEN
+        CAST(RB.BALANCE AS DECIMAL(18,2))
+       WHEN
+        RB.INTEREST_POSTED_FLAG = 1
+       AND
+        RB.POSTED_DTE = RB.EXPIRY_NXT_WORKDAY_DTE
+       AND
+        RB.BALANCE >= 0
+       THEN
+        CAST(0 AS DECIMAL(18,2))
+       WHEN
+        RB.BALANCE + TRUNC(RB.FORECAST_INTEREST_CUMULATIVE) < 0
+       THEN
+        CAST(RB.BALANCE + TRUNC(RB.FORECAST_INTEREST_CUMULATIVE,2)
+        AS DECIMAL(18,2))
+       WHEN
+        RB.BALANCE + TRUNC(RB.FORECAST_INTEREST_CUMULATIVE) > 0
+       THEN
+        0
+       ELSE
+        0
+ END AS
+  RESIDUAL_BAL_AMT
+0,CASE WHEN RESIDUAL_BAL_AMT < 0
+       THEN
+        1
+       ELSE
+        0
+ END AS
+  RESIDUAL_BAL_IND
+ ,BASE.EXCLUDED_IND
+ ,DIFF_EXPIRY_DATES
+ ,WEEKLY_REPAYMTS
+ ,REPAYMT_AMT_0
+ ,REPAYMT_INTERVAL_0
+ ,OTHER_REPAYMT_TYPE
+ ,NON_NAPS
+ ,EXPIRED
+ ,CASE WHEN DIFF_EXPIRY_DATES + WEEKLY_REPAYMTS +REPAYMT_AMT_0 +
+  REPAYMT_INTERVAL_0 + OTHER_REPAYMT_TYPE + NON_NAPS + EXPIRED >1
+       THEN
+        'MULTIPLE'
+       WHEN
+      BASE.DIFF_EXPIRY_DATES = 1
+     THEN
+      COALESCE('EXPIRY DATES DIFFERENT','')
+     WHEN
+      BASE.WEEKLY_REPAYMTS = 1
+     THEN
+      COALESCE('WEEKLY REPAYMENTS','')
+     WHEN
+      BASE.REPAYMT_AMT_0 = 1
+     THEN
+      COALESCE ('REPAYMENT AMT IS 0', '')
+     WHEN
+      BASE.REPAYMT_INTERVAL_0 = 1
+     THEN
+      COALESCE ('REPAYMENT INTERVAL IS 0', '')
+     WHEN
+      BASE.OTHER_REPAYMT_TYPE = 1
+     THEN
+      COALESCE ('BULLET OR OTHER REPAYMT SCHED', '')
+     WHEN
+     BASE.NON_NAPS = 1
+    THEN
+     COALESCE ('NO NAPS APPLICATION', '')
+    WHEN
+     BASE.EXPIRED = 1
+    THEN
+     COALESCE ('EXPIRED ON REPORT DATE', '')
+    WHEN
+     EXCLUDED_IND = 'N'
+    THEN
+    'RESIDUAL BAL CALCD'
+    ELSE
+     NULL
+ END AS
+  REASON
+ ,BASE.PERIOD_DTE
+ ,BASE.APPL_SRCE_SYS AS SRCE_SYS
+ ,BASE.SRCE_INST
+ ,DATE AS LOAD_DTE
+ ,TIME AS LOAD_TIME
+0FROM
+  SQRSBL10_RSDL_BAL_ACC_BASE BASE
+0LEFT JOIN
+  SQRSBL30_RESI_BAL_RCRSN RB
+ ON
+  RB.WH_ACC_NO = BASE.WH_ACC_NO
+0WHERE
+ (RB.POSTED_DTE <= RB.EXPIRY_NXT_WORKDAY_DTE
+ OR
+  RB.WH_ACC_NO IS NULL)
+0QUALIFY
+ ROW_NUMBER () OVER
+ ( PARTITION BY BASE.WH_ACC_NO    ORDER BY
+ RB.DATE_ROW_NUMBER DESC) =1;
+0 *** Insert completed. 34213 rows added.
+  *** Total elapsed time was 3.57 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0.IF ERRORCODE <> 0 THEN .QUIT 8
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0/**********************************************************************/
+ /* COLLECT STATISTICS                                                 */
+ /**********************************************************************/
+ COLLECT STATISTICS
+  INDEX (UNIQUE_KEY_INT, WH_ACC_NO)
+ ,COLUMN (UNIQUE_KEY_INT)
+ ,COLUMN (WH_ACC_NO)
+ ,COLUMN (EXPIRY_DTE)
+ ,COLUMN (EXPIRY_NXT_WORKDAY_DTE)
+ ON RSDL_BAL_CALC_PERIODIC
+ ;
+0 *** Update completed. 6 rows changed.
+  *** Total elapsed time was 7.19 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .IF ERRORCODE <> 0 THEN .QUIT 8
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .QUIT 0
+  *** You are now logged off from the DBC.
+0 *** Exiting BTEQ...
+0 Ending BTEQ  Thu Jun  4 11:47:19 2026
+0
+ BTEQ 20.00.00.07 Thu Jun  4 11:47:20 2026 PID: 16909207
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .LOGON ncrdwprod.aib.pri/DW78855,
+0 *** Logon successfully completed.
+  *** Teradata Database Release is 17.20.03.39
+  *** Teradata Database Version is 17.20.03.39
+  *** Transaction semantics are BTET.
+  *** Session Character Set Name is 'EBCDIC'.
+
+  *** Total elapsed time was 0.36 seconds.
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ DATABASE DDEWD18S;
+0 *** New default database accepted.
+  *** Total elapsed time was 0.15 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ /*********************************************************************/
+ /* PROJECT   : ENTERPRISE WAREHOUSE                                  */
+ /* NAME      : SQRSBL45                                              */
+ /* FUNCTION  : INSERT INTO AUDIT LOG                                 */
+ /* DATE      : FEB 2026                                              */
+ /* AUTHOR    : RASHMI JAISWAL                                        */
+ /* VERSION   : 1.0                                                   */
+ /* COPYRIGHT : ALLIED IRISH BANK PLC 2013                            */
+ /*********************************************************************/
+ /*********************************************************************/
+ /* INSERT INTO AUDIT LOG                                             */
+ /*********************************************************************/
+0  INSERT INTO AUDIT_LOG
+  (
+   TABLE_NAME
+  ,STEP
+  ,SRCE_SYS
+  ,SRCE_INST
+  ,TOTAL_INSERTS
+  ,TOTAL_UPDATES
+  ,TOTAL_DELETES
+  ,RUN_CONTROL_DTE
+  ,LOAD_DTE
+  ,LOAD_TIME
+  ,LOG_DTE
+  ,LOG_TIME
+  )
+0  SELECT
+   'RSDL_BAL_CALC_PERIODIC'
+  ,'SQREBL40'
+  ,COALESCE(REB.SRCE_SYS, 0)
+  ,REB.SRCE_INST
+  ,COUNT(*)
+  ,0
+  ,0
+  ,DTE.RUN_CONTROL_DTE
+  ,DTE.LOAD_DTE
+  ,DTE.LOAD_TIME
+  ,DATE
+  ,TIME
+0  FROM
+    RSDL_BAL_CALC_PERIODIC REB
+0  CROSS JOIN
+    FDM_RUN_DATE DTE
+0  GROUP BY
+     DTE.RUN_CONTROL_DTE
+    ,REB.SRCE_SYS
+    ,REB.SRCE_INST
+    ,DTE.LOAD_DTE
+    ,DTE.LOAD_TIME
+    ;
+0 *** Insert completed. 2 rows added.
+  *** Total elapsed time was 1.61 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0  .IF ERRORCODE <> 0 THEN .QUIT 8
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .QUIT 0
+  *** You are now logged off from the DBC.
+0 *** Exiting BTEQ...
+0 Ending BTEQ  Thu Jun  4 11:47:22 2026
+0
+ BTEQ 20.00.00.07 Thu Jun  4 11:47:22 2026 PID: 33686423
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .LOGON ncrdwprod.aib.pri/DW78855,
+0 *** Logon successfully completed.
+  *** Teradata Database Release is 17.20.03.39
+  *** Teradata Database Version is 17.20.03.39
+  *** Transaction semantics are BTET.
+  *** Session Character Set Name is 'EBCDIC'.
+
+  *** Total elapsed time was 0.37 seconds.
+
+ +---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ DATABASE DDEWD18S;
+0 *** New default database accepted.
+  *** Total elapsed time was 0.06 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ /*********************************************************************/
+ /* PROJECT   : ENTERPRISE WAREHOUSE                                  */
+ /* NAME      : SQRSBL50                                              */
+ /* FUNCTION  : DROP THE TEMPORARY TABLE                              */
+ /* DATE      : FEB 2026                                              */
+ /* AUTHOR    : RASHMI JAISWAL                                        */
+ /* VERSION   : 1.0                                                   */
+ /* COPYRIGHT : ALLIED IRISH BANK PLC 2013                            */
+ /*********************************************************************/
+ /*********************************************************************/
+ /* DROP THE TEMPORARY TABLE                                          */
+ /*********************************************************************/
+0 DELETE FROM SQRSBL10_ACCOUNT_PAYMENTS;
+0 *** Delete completed. 2926097 rows removed.
+  *** Total elapsed time was 0.54 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL10_ACCOUNT_PAYMENTS;
+0 *** Table has been dropped.
+  *** Total elapsed time was 3.00 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL10_RSDL_BAL_ACC_BASE;
+0 *** Delete completed. 34213 rows removed.
+  *** Total elapsed time was 1.35 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL10_RSDL_BAL_ACC_BASE;
+0 *** Table has been dropped.
+  *** Total elapsed time was 4.52 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL20_NUMBER_LIST;
+0 *** Delete completed. 400 rows removed.
+  *** Total elapsed time was 1.02 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL20_NUMBER_LIST;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.98 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL20_PRD_RESI_PYMNT_DTES;
+0 *** Delete completed. 1253378 rows removed.
+  *** Total elapsed time was 1.49 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL20_PRD_RESI_PYMNT_DTES;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.72 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RSDL_BAL_CAL;
+0 *** Delete completed. 23791833 rows removed.
+  *** Total elapsed time was 1.46 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RSDL_BAL_CAL;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.82 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_CAL_UPD;
+0 *** Delete completed. 23791833 rows removed.
+  *** Total elapsed time was 1.05 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_CAL_UPD;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.10 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_1;
+0 *** Delete completed. 23791833 rows removed.
+  *** Total elapsed time was 1.10 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_1;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.29 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 0.77 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.07 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_FLAGS_PRD;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 1.01 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_FLAGS_PRD;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.68 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_PRD_RESI_BAL_FLAGS;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 0.66 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_PRD_RESI_BAL_FLAGS;
+0 *** Table has been dropped.
+  *** Total elapsed time was 1.82 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+0 DELETE FROM SQRSBL30_RESI_BAL_RCRSN;
+0 *** Delete completed. 1395601 rows removed.
+  *** Total elapsed time was 1.00 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+  DROP TABLE SQRSBL30_RESI_BAL_RCRSN;
+0 *** Table has been dropped.
+  *** Total elapsed time was 2.47 seconds.
+-+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+-
+ .QUIT 0
+  *** You are now logged off from the DBC.
+0 *** Exiting BTEQ...
+0 Ending BTEQ  Thu Jun  4 11:48:00 2026
+0
+
